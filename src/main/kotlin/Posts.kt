@@ -13,7 +13,9 @@ data class Post(
     val published: Long,
     val likes: Int,
     val signerId: Int = 0,
-    val canPin: Boolean = false
+    val canPin: Boolean = false,
+    val comments: Comments? = null,
+    val copyright: Copyright? = null
 ) {
 
     class Comments(count: Int, canPost: Boolean, groupsCanPost: Boolean, canClose: Boolean, canOpen: Boolean)
@@ -29,16 +31,15 @@ class WallService {
 
     fun add(post: Post): Post {
         uniqueId += 1
-        val newPost = post.copy(id = uniqueId + 1)
+        val newPost = post.copy(id = uniqueId)
         posts += newPost
         return posts.last()
     }
 
     fun update(post: Post): Boolean {
-
         for ((index, currentPost) in posts.withIndex()) {
             if (post.id == currentPost.id) {
-                posts[index] = post
+                posts[index] = post.copy()
                 return true
             }
         }

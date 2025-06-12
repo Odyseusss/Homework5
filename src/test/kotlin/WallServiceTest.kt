@@ -45,7 +45,7 @@ class WallServiceTest {
         val service = WallService()
         val post = service.add(
             Post(
-                id = 1_000_000_000,
+                id = 0,
                 authorId = 1,
                 authorName = "Name",
                 content = "content",
@@ -53,6 +53,15 @@ class WallServiceTest {
                 likes = 7,
             )
         )
-        assertTrue(service.update(post))
+
+        val nonExistingPost = Post(
+            id = 1_000_000,
+            authorId = 33,
+            authorName = "Name2",
+            content = "New content",
+            published = 12,
+            likes = 30
+        )
+        assertFalse(service.update(nonExistingPost))
     }
 }
