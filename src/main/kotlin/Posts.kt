@@ -1,8 +1,6 @@
-interface Attachments {
-    val type: String
-}
+sealed class Attachments(val type: String)
 
-class Photo(
+data class Photo(
     val id: Int,
     val albumId: Int,
     val ownerId: Int,
@@ -10,11 +8,9 @@ class Photo(
     val text: String
 )
 
-class PhotoAttachment(val photo: Photo) : Attachments {
-    override val type: String = "photo"
-}
+class PhotoAttachment(val photo: Photo) : Attachments(type = "photo")
 
-class Video(
+data class Video(
     val id: Int,
     val ownerId: Int,
     val title: String,
@@ -22,11 +18,9 @@ class Video(
     val duration: Int
 )
 
-class VideoAttachment(val video: Video) : Attachments {
-    override val type: String = "video"
-}
+class VideoAttachment(val video: Video) : Attachments(type = "video")
 
-class Audio(
+data class Audio(
     val id: Int,
     val ownerId: Int,
     val artist: String,
@@ -34,11 +28,9 @@ class Audio(
     val duration: Int
 )
 
-class AudioAttachment(val audio: Audio) : Attachments {
-    override val type: String = "audio"
-}
+class AudioAttachment(val audio: Audio) : Attachments(type = "audio")
 
-class File(
+data class File(
     val id: Int,
     val ownerId: Int,
     val title: String,
@@ -46,9 +38,7 @@ class File(
     val ext: String
 )
 
-class FileAttachment(val file: File) : Attachments {
-    override val type: String = "file"
-}
+class FileAttachment(val file: File) : Attachments(type = "file")
 
 data class Post(
     var id: Int,
@@ -123,4 +113,7 @@ fun main() {
     val (id, authorId, _, _, _, _, _, _, _, _, content) = post
     println(liked)
     println("$id, $authorId, $content")
+
+    val attachment: Attachments = VideoAttachment(video = Video(1, 2, "stuff", "some stuff", 30))
+    println(attachment.type)
 }
