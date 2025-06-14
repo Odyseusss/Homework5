@@ -1,3 +1,45 @@
+sealed class Attachments(val type: String)
+
+data class Photo(
+    val id: Int,
+    val albumId: Int,
+    val ownerId: Int,
+    val userId: Int,
+    val text: String
+)
+
+class PhotoAttachment(val photo: Photo) : Attachments(type = "photo")
+
+data class Video(
+    val id: Int,
+    val ownerId: Int,
+    val title: String,
+    val description: String,
+    val duration: Int
+)
+
+class VideoAttachment(val video: Video) : Attachments(type = "video")
+
+data class Audio(
+    val id: Int,
+    val ownerId: Int,
+    val artist: String,
+    val title: String,
+    val duration: Int
+)
+
+class AudioAttachment(val audio: Audio) : Attachments(type = "audio")
+
+data class File(
+    val id: Int,
+    val ownerId: Int,
+    val title: String,
+    val size: Int,
+    val ext: String
+)
+
+class FileAttachment(val file: File) : Attachments(type = "file")
+
 data class Post(
     var id: Int,
     val authorId: Int,
@@ -15,7 +57,8 @@ data class Post(
     val signerId: Int = 0,
     val canPin: Boolean = false,
     val comments: Comments? = null,
-    val copyright: Copyright? = null
+    val copyright: Copyright? = null,
+    val attachments: Array<Attachments> = emptyArray()
 ) {
 
     class Comments(count: Int, canPost: Boolean, groupsCanPost: Boolean, canClose: Boolean, canOpen: Boolean)
@@ -56,9 +99,21 @@ class WallService {
 }
 
 fun main() {
-    val post = Post(1, 1, authorName = "author", content = "content", likes = 0, published = 0, replyOwnerId = null, fromId = null)
+    val post = Post(
+        1,
+        1,
+        authorName = "author",
+        content = "content",
+        likes = 0,
+        published = 0,
+        replyOwnerId = null,
+        fromId = null
+    )
     val liked = post.copy(likes = post.likes + 1)
     val (id, authorId, _, _, _, _, _, _, _, _, content) = post
     println(liked)
     println("$id, $authorId, $content")
+
+    val attachment: Attachments = VideoAttachment(video = Video(1, 2, "stuff", "some stuff", 30))
+    println(attachment.type)
 }
