@@ -1,9 +1,9 @@
 data class Post(
     var id: Int,
     val authorId: Int,
-    val fromId: Int = 0,
+    val fromId: Int?,
     val createdBy: Int = 0,
-    val replyOwnerId: Int = 0,
+    val replyOwnerId: Int?,
     val replyPostId: Int = 0,
     val friendsOnly: Boolean = false,
     val date: Int = 0,
@@ -56,7 +56,7 @@ class WallService {
 }
 
 fun main() {
-    val post = Post(1, 1, authorName = "author", content = "content", likes = 0, published = 0)
+    val post = Post(1, 1, authorName = "author", content = "content", likes = 0, published = 0, replyOwnerId = null, fromId = null)
     val liked = post.copy(likes = post.likes + 1)
     val (id, authorId, _, _, _, _, _, _, _, _, content) = post
     println(liked)

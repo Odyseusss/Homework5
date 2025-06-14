@@ -14,6 +14,8 @@ class WallServiceTest {
             content = "Some content",
             published = 121111,
             likes = 1,
+            replyOwnerId = null,
+            fromId = 2
         )
 
         val addedPost = service.add(newPost)
@@ -32,6 +34,8 @@ class WallServiceTest {
                 content = "content",
                 published = 7,
                 likes = 10,
+                replyOwnerId = 2,
+                fromId = null
             )
         )
 
@@ -51,6 +55,8 @@ class WallServiceTest {
                 content = "content",
                 published = 10,
                 likes = 7,
+                replyOwnerId = null,
+                fromId = null
             )
         )
 
@@ -60,7 +66,9 @@ class WallServiceTest {
             authorName = "Name2",
             content = "New content",
             published = 12,
-            likes = 30
+            likes = 30,
+            replyOwnerId = null,
+            fromId = null
         )
         assertFalse(service.update(nonExistingPost))
     }
